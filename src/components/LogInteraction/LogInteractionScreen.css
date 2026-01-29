@@ -1,0 +1,24 @@
+.log-interaction-screen {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.screen-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-lg);
+}
+
+.screen-content {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .screen-content {
+        grid-template-columns: 1fr;
+    }
+}
