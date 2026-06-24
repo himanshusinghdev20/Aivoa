@@ -20,7 +20,10 @@ python -m venv venv
 # Activate it
 venv\Scripts\activate
 
-# Install dependencies
+
+
+
+# install 
 pip install -r requirements.txt
 
 # Create .env file
