@@ -4,7 +4,7 @@ from typing import List
 
 class Settings(BaseSettings):
     # Database
-    DATABASE_URL: str = "mysql+pymysql://root:password@127.0.0.1:3306/hcp_crm"
+    DATABASE_URL: str = "sqlite:///./hcp_crm.db"
     
     # Groq API
     GROQ_API_KEY: str
