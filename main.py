@@ -42,11 +42,14 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     """Initialize database on startup"""
-    init_db()
-    print(f"✅ Database initialized")
+    try:
+        init_db()
+        print("✅ Database initialized")
+    except Exception as e:
+        print(f"⚠️ Database connection failed: {e}")
+        print("⚠️ Application started without database")
+
     print(f"✅ Server running on http://{settings.API_HOST}:{settings.API_PORT}")
-
-
 # ==================== HCP Endpoints ====================
 
 @app.get("/api/hcps", response_model=List[HCPResponse])

@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 from config import settings
 
 # Create database engine
@@ -11,7 +10,11 @@ engine = create_engine(
 )
 
 # Create SessionLocal class
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
 # Create Base class for models
 Base = declarative_base()
@@ -27,5 +30,10 @@ def get_db():
 
 
 def init_db():
-    """Initialize database tables"""
-    Base.metadata.create_all(bind=engine)
+    """Initialize database tables without crashing app"""
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database connected successfully")
+    except Exception as e:
+        print(f"⚠️ Database connection failed: {e}")
+        print("⚠️ Continuing application startup without database...")
