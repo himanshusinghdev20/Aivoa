@@ -42,11 +42,10 @@ app.add_middleware(
 async def startup_event():
     try:
         init_db()
-        print("Database initialized")
     except Exception as e:
-        print(f"Startup error: {e}")
+        print(f"Startup DB Error: {e}")
 
-    print("Server started")
+    print("Application Started")
 
 
 # ==================== HCP Endpoints ====================
@@ -238,14 +237,5 @@ if __name__ == "__main__":
         reload=settings.DEBUG
     )
 
-import os
 
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 8000)),
-        reload=False
-    )
 
-    

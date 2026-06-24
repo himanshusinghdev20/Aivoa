@@ -2,26 +2,32 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from config import settings
 
-# Create database engine
-engine = create_engine(
-    settings.DATABASE_URL,
-    echo=settings.DEBUG,
-    pool_pre_ping=True
-)
+engine = None
+SessionLocal = None
 
-# Create SessionLocal class
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+try:
+    engine = create_engine(
+        settings.DATABASE_URL,
+        echo=settings.DEBUG,
+        pool_pre_ping=True
+    )
 
-# Create Base class for models
+    SessionLocal = sessionmaker(
+        autocommit=False,
+        autoflush=False,
+        bind=engine
+    )
+
+except Exception as e:
+    print(f"Database initialization error: {e}")
+
 Base = declarative_base()
 
 
 def get_db():
-    """Dependency for getting database session"""
+    if SessionLocal is None:
+        return
+
     db = SessionLocal()
     try:
         yield db
@@ -31,7 +37,9 @@ def get_db():
 
 def init_db():
     try:
-        Base.metadata.create_all(bind=engine)
-        print("Database connected")
+        if engine:
+            Base.metadata.create_all(bind=engine)
+            print("Database connected")
     except Exception as e:
-        print(f"Database error: {e}")
+        print(f"Database connection failed: {e}")
+        print("Continuing without database")
