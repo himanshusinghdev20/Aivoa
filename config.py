@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     # API Settings
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
-    CORS_ORIGINS: str = "http://localhost:5173"
+    CORS_ORIGINS: str = "CORS_ORIGINS"
     
     # Application
     DEBUG: bool = True
