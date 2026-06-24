@@ -38,18 +38,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.on_event("startup")
 async def startup_event():
-    """Initialize database on startup"""
     try:
         init_db()
-        print("✅ Database initialized")
+        print("Database initialized")
     except Exception as e:
-        print(f"⚠️ Database connection failed: {e}")
-        print("⚠️ Application started without database")
+        print(f"Startup error: {e}")
 
-    print(f"✅ Server running on http://{settings.API_HOST}:{settings.API_PORT}")
+    print("Server started")
+
+
 # ==================== HCP Endpoints ====================
 
 @app.get("/api/hcps", response_model=List[HCPResponse])
@@ -238,3 +237,15 @@ if __name__ == "__main__":
         port=settings.API_PORT,
         reload=settings.DEBUG
     )
+
+import os
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000)),
+        reload=False
+    )
+
+    

@@ -30,10 +30,8 @@ def get_db():
 
 
 def init_db():
-    """Initialize database tables without crashing app"""
     try:
         Base.metadata.create_all(bind=engine)
-        print("✅ Database connected successfully")
+        print("Database connected")
     except Exception as e:
-        print(f"⚠️ Database connection failed: {e}")
-        print("⚠️ Continuing application startup without database...")
+        print(f"Database error: {e}")
